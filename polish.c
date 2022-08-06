@@ -43,12 +43,13 @@ void polish_get(signes *stack, char *new_data, char *polish) {
                 j++;
             }
             push_signes(stack, c);
-            printf("%s\n", polish);
+            if (prior(c) != 5 && prior(c) != 4)
+                polish[j++] = '|';
+            }
         }
         while (stack->top > 0) {
             polish[j] = pop_signes(stack);
             j++;
         }
-    }
     polish[j] = '\0';
 }
