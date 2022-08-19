@@ -1,13 +1,14 @@
 #include "header.h"
+
 int prior(char c) {
     int priority = 0;
     if (c == '(' || c == ')') {
         priority = 1;
     } else if (c == '+' || c == '-') {
         priority = 2;
-    }else if (c == '*' || c == '/') {
+    } else if (c == '*' || c == '/') {
         priority = 3;
-    } else if (c == 'h' || c == 'c' || c == 't' || c == 'k' || c == 'q' || c == 'l') {
+    } else if (c == 'h' || c == 'p' || c == 't' || c == 'k' || c == 'q' || c == 'l') {
         priority = 4;
     } else if (c == '~') {
         priority = 5;
@@ -15,10 +16,9 @@ int prior(char c) {
     return priority;
 }
 
-void polish_get(signes *stack, char *new_data, char *polish) {
+void polish_get(t_signes *stack, char *new_data, char *polish) {
     int j = 0;
     char c = 0;
-    
     for (size_t i = 0; i < strlen(new_data); i++) {
         c = new_data[i];
         if (!prior(c) && c != '\n') {
@@ -29,9 +29,8 @@ void polish_get(signes *stack, char *new_data, char *polish) {
                 push_signes(stack, c);
                 continue;
             }
-            
             if (c == ')') {
-                while (stack->sig[stack->top-1] != '(') {
+                while (stack->sig[stack->top - 1] != '(') {
                     polish[j] = pop_signes(stack);
                     j++;
                 }
@@ -45,11 +44,12 @@ void polish_get(signes *stack, char *new_data, char *polish) {
             push_signes(stack, c);
             if (prior(c) != 5 && prior(c) != 4)
                 polish[j++] = '|';
-            }
         }
-        while (stack->top > 0) {
-            polish[j] = pop_signes(stack);
-            j++;
-        }
+    }
+
+    while (stack->top > 0) {
+        polish[j] = pop_signes(stack);
+        j++;
+    }
     polish[j] = '\0';
 }
