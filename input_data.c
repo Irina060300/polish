@@ -8,8 +8,8 @@ void (*change_funcs[])(char *) = {
     change_ctg,
     change_tg,
     change_ln,
-    NULL
-};
+    change_mod,
+    NULL};
 
 void init_signes(t_signes *stack) {
     stack->top = 0;
@@ -200,6 +200,45 @@ void change_ctg(char *data) {
     }
     if (strlen(data) == 1) {
         if (data[0] == 'k') {
+            data[0] = '!';
+        }
+    }
+}
+
+void change_mod(char *data) {
+    size_t i = 0;
+    if (strlen(data) > 2) {
+        for (i = 0; i < strlen(data) - 2; i++) {
+            if (data[i] == 'm' && data[i + 1] == 'o' && data[i + 2] == 'd') {
+                data[i] = 'n';
+                data[i + 1] = ' ';
+                data[i + 2] = ' ';
+            }
+        }
+        for (i = 0; i < strlen(data) - 2; i++) {
+            if (data[i] == 'n') {
+                if (!(data[i + 1] == ' ' && data[i + 2] == ' ')) {
+                    data[i] = '!';
+                }
+            }
+        }
+        if (data[i] == 'n') {
+            data[i] = '!';
+        }
+        if (data[i + 1] == 'n') {
+            data[i + 1] = '!';
+        }
+    }
+    if (strlen(data) == 2) {
+        if (data[0] == 'n') {
+            data[0] = '!';
+        }
+        if (data[1] == 'n') {
+            data[1] = '!';
+        }
+    }
+    if (strlen(data) == 1) {
+        if (data[0] == 'n') {
             data[0] = '!';
         }
     }

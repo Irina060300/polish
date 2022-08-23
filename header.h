@@ -4,9 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include <windows.h>
 #define NMAX 300
-#define POLE_HEIGHT 41
+#define POLE_HEIGHT 42
 #define POLE_WIDTH 163
 #define pi M_PI
 typedef struct t_signes {
@@ -33,6 +32,7 @@ int prior(char c);
 
 void change_unar_minus(char *data);
 void change_sin(char *data);
+void change_mod(char *data);
 void change_cos(char *data);
 void change_tg(char *data);
 void change_ctg(char *data);
@@ -43,6 +43,7 @@ int check_data(char *new_data);
 void check_extra_symbols(char *new_data);
 int check_brackets(char *new_data);
 int check_sin(char *new_data);
+int check_mod(char *new_data) ;
 int check_cos(char *new_data);
 int check_tg(char *new_data);
 int check_ctg(char *new_data);

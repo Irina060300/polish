@@ -1,5 +1,3 @@
-#include <locale.h>
-
 #include "header.h"
 
 char **init_pole() {

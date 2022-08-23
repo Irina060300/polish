@@ -8,13 +8,16 @@ int prior(char c) {
         priority = 2;
     } else if (c == '*' || c == '/') {
         priority = 3;
-    } else if (c == 'h' || c == 'p' || c == 't' || c == 'k' || c == 'q' || c == 'l') {
+    } else if (c == 'h' || c == 'p' || c == 't' || c == 'k' || c == 'q' || c == 'l' || c == 'n') {
         priority = 4;
     } else if (c == '~') {
         priority = 5;
+    } else if (c == '^') {
+        priority = 6;
     }
     return priority;
 }
+
 
 void polish_get(t_signes *stack, char *new_data, char *polish) {
     int j = 0;
