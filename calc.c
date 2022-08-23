@@ -60,11 +60,11 @@ void result(char *polish, t_numbers *stk, char **pole) {
             if (y < 8 && y > -8) {
                 double h = ceil((POLE_HEIGHT - 2) / 2 - (POLE_HEIGHT - 2) / 2 / max * y);
                 double c = floor((POLE_HEIGHT - 2) / 2 - (POLE_HEIGHT - 2) / 2 / max * y);
-                if (y > pow(10, -6))
+                if (y > pow(10, -10))
                     pole[(int)c][count] = '*';
-                else if (y < -pow(10, -6)) {
+                else if (y < -pow(10, -10)) {
                     pole[(int)h][count] = '*';
-                } else if (y < pow(10, -6) && y > -pow(10, -6)) {
+                } else {
                     pole[20][count] = '*';
                 }
                 point_count++;
