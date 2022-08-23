@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ncurses.h>
 #define NMAX 300
 #define POLE_HEIGHT 42
 #define POLE_WIDTH 163

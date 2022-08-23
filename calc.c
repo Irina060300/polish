@@ -12,7 +12,6 @@ double create_stk(char *polish, t_numbers *stk, double x) {
         else
             push_numbers(stk, x);
     } else {
-        // printf("polish %s\n", polish);
         for (i = 0; i < strlen(polish); i++) {
             char c = polish[i];
             if (isnt_digit(c) != 0 && c != '|' && c != '\n') {
@@ -61,11 +60,11 @@ void result(char *polish, t_numbers *stk, char **pole) {
             if (y < 8 && y > -8) {
                 double h = ceil((POLE_HEIGHT - 2) / 2 - (POLE_HEIGHT - 2) / 2 / max * y);
                 double c = floor((POLE_HEIGHT - 2) / 2 - (POLE_HEIGHT - 2) / 2 / max * y);
-                if (y > pow(10, -15))
+                if (y > pow(10, -6))
                     pole[(int)c][count] = '*';
-                else if (y < -pow(10, -15)) {
+                else if (y < -pow(10, -6)) {
                     pole[(int)h][count] = '*';
-                } else {
+                } else if (y < pow(10, -6) && y > -pow(10, -6)) {
                     pole[20][count] = '*';
                 }
                 point_count++;
@@ -77,23 +76,54 @@ void result(char *polish, t_numbers *stk, char **pole) {
         }
     }
     if (point_count == 0) {
-        printf("Out of E(y)");
+        printw("Out of E(y)");
     } else {
-        printf("\n");
-
+        printw("\n");
+        start_color();
+        init_pair(1, COLOR_WHITE, COLOR_BLACK);
+        init_pair(3, COLOR_MAGENTA, COLOR_BLACK);
+        init_pair(4, COLOR_RED, COLOR_BLACK);
         for (int i = 0; i < POLE_HEIGHT; i++) {
             for (int j = 0; j < POLE_WIDTH; j++) {
-                if (j != 0 && j != 1 && i != 20 && pole[i][j] != '*') {
-                    printf("%c", pole[i][j]);
-                } else if (j != 0 && j != 1 && pole[i][j] == '*') {
-                    printf("%c", pole[i][j]);
-                } else if (j != 0 && j != 1 && i == 20) {
-                    printf("%c", pole[i][j]);
+                if ((j == 0 || j == 1 || j == (POLE_WIDTH - 1) / 2 + 1) && i != POLE_HEIGHT - 1 && i != 20) {
+                    if (j == 0 || j == 1) {
+                        attron(COLOR_PAIR(1));
+                        printw("%c", pole[i][j]);
+                    } else {
+                        if(pole[i][j] == '*'){
+                            attron(COLOR_PAIR(4));
+                            printw("%c", pole[i][j]);
+                        } else {
+                            attron(COLOR_PAIR(3));
+                            printw("%c", pole[i][j]);
+                        }
+                    }
+                } else if (i == POLE_HEIGHT - 1) {
+                    attron(COLOR_PAIR(1));
+                    printw("%c", pole[i][j]);
+                } else if (i == 20 && j != 2) {
+                    if (j == 1) {
+                        attron(COLOR_PAIR(1));
+                        printw("%c", pole[i][j]);
+                    } else {
+                        if(pole[i][j] == '*'){
+                            attron(COLOR_PAIR(4));
+                            printw("%c", pole[i][j]);
+                        } else {
+                            attron(COLOR_PAIR(3));
+                            printw("%c", pole[i][j]);
+                        }
+                    }
+                } else if(pole[i][j] == '*') {
+                    attron(COLOR_PAIR(4));
+                    printw("%c", pole[i][j]);
                 } else {
-                    printf("%c", pole[i][j]);
+                    attron(COLOR_PAIR(1));
+                    printw("%c", pole[i][j]);
                 }
             }
-            printf("\n");
+            printw("\n");
+            attron(COLOR_PAIR(1));
         }
     }
 }
@@ -132,10 +162,8 @@ void calc(char c, t_numbers *stk) {
     }
 }
 
-
 void create_pole(char **pole, char *polish, t_numbers *stk) {
     double max = max_point(polish, stk);
-    printf("%s\n", polish);
     stk->top = 0;
     for (int i = 0; i < POLE_HEIGHT; i++) {
         int k;
@@ -148,7 +176,6 @@ void create_pole(char **pole, char *polish, t_numbers *stk) {
                 else
                     pole[i][j] = '-';
             } else if (i == POLE_HEIGHT - 1) {
-                // printf("f");
                 if (j == 1 || j == (POLE_WIDTH - 1) / 8 + 1 || j == (POLE_WIDTH - 1) / 8 * 3 + 1 ||
                     j == (POLE_WIDTH - 1) / 8 * 3 + 1 || j == (POLE_WIDTH - 1) / 4 + 1)
                     pole[i][j] = '-';

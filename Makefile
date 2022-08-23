@@ -1,5 +1,5 @@
 build: check_input.o input_data.o polish.o main.o calc.o
-	gcc check_input.o input_data.o polish.o main.o calc.o -lm  -o visualizer
+	gcc check_input.o input_data.o polish.o main.o calc.o -lm -lncurses -o visualizer
 check_input.o: check_input.c header.h
 	gcc -c -Wall -Wextra -Werror check_input.c
 input_data.o: check_input.c header.h

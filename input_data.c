@@ -18,8 +18,8 @@ void init_numbers(t_numbers *stack) {
     stack->top = 0;
 }
 void input(char *data) {
-    printf("  ");
-    scanf("%[^\n]%*c", data);
+    printw("  ");
+    scanw("%[^\n]%*c", data);
 }
 void push_signes(t_signes *stack, char c) {
     stack->sig[stack->top] = c;
