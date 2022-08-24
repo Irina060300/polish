@@ -164,7 +164,7 @@ void calc(char c, t_numbers *stk) {
 }
 
 void create_pole(char **pole, char *polish, t_numbers *stk) {
-    printw("%s\n", polish);
+    // printw("%s\n", polish);
     double max = max_point(polish, stk);
     stk->top = 0;
     for (int i = 0; i < POLE_HEIGHT; i++) {
