@@ -102,7 +102,7 @@ void result(char *polish, t_numbers *stk, char **pole) {
                 } else if (i == POLE_HEIGHT - 1) {
                     attron(COLOR_PAIR(1));
                     printw("%c", pole[i][j]);
-                } else if (i == 20 && j != 2) {
+                } else if (i == 20 && j != 2 && j != POLE_WIDTH - 1) {
                     if (j == 1) {
                         attron(COLOR_PAIR(1));
                         printw("%c", pole[i][j]);
