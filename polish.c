@@ -8,7 +8,7 @@ int prior(char c) {
         priority = 2;
     } else if (c == '*' || c == '/') {
         priority = 3;
-    } else if (c == 'h' || c == 'p' || c == 't' || c == 'k' || c == 'q' || c == 'l' || c == 'n') {
+    } else if (c == 'h' || c == 'p' || c == 't' || c == 'k' || c == 'q' || c == 'l' || c == 'a') {
         priority = 4;
     } else if (c == '~') {
         priority = 5;

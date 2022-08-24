@@ -42,7 +42,7 @@ int max_point(char *polish, t_numbers *stk) {
             max = (int)ceil(y);
         }
     }
-    if (max % 2 == 1) max += 1;
+    if (max % 2 == 1 && max < 8) max += 1;
     if (!(max < 8)) max = 8;
     return max;
 }
@@ -57,7 +57,7 @@ void result(char *polish, t_numbers *stk, char **pole) {
     for (double x = -8.0; x < 8.0; x += 0.1) {
         y = create_stk(polish, stk, x);
         if (isnan(y) == 0 && isinf(y) == 0) {
-            if (y < 8 && y > -8) {
+            if (y <= 8 && y >= -8) {
                 double h = ceil((POLE_HEIGHT - 2) / 2 - (POLE_HEIGHT - 2) / 2 / max * y);
                 double c = floor((POLE_HEIGHT - 2) / 2 - (POLE_HEIGHT - 2) / 2 / max * y);
                 if (y > pow(10, -10))
@@ -69,6 +69,7 @@ void result(char *polish, t_numbers *stk, char **pole) {
                 }
                 point_count++;
             }
+            // printw("%d ", count);
             count++;
         } else {
             count++;
@@ -131,7 +132,7 @@ void result(char *polish, t_numbers *stk, char **pole) {
 int isnt_digit(char c) {
     int flag = 0;
     if (!(c == '+' || c == '-' || c == '*' || c == '/' || c == '~' || c == '^' ||
-          c == 'h' || c == 'p' || c == 'q' || c == 't' || c == 'k' || c == 'l' || c == 'n'))
+          c == 'h' || c == 'p' || c == 'q' || c == 't' || c == 'k' || c == 'l' || c == 'a'))
         flag++;
     return flag;
 }
@@ -151,7 +152,7 @@ void calc(char c, t_numbers *stk) {
             a = pop_numbers(stk);
             if (c == 'h') push_numbers(stk, sin(a));
             if (c == 'p') push_numbers(stk, cos(a));
-            if (c == 'n') push_numbers(stk, fabs(a));
+            if (c == 'a') push_numbers(stk, fabs(a));
             if (c == 't') push_numbers(stk, tan(a));
             if (c == 'k') push_numbers(stk, pow(tan(a), -1));
             if (c == 'q') push_numbers(stk, sqrt(a));
@@ -163,6 +164,7 @@ void calc(char c, t_numbers *stk) {
 }
 
 void create_pole(char **pole, char *polish, t_numbers *stk) {
+    printw("%s\n", polish);
     double max = max_point(polish, stk);
     stk->top = 0;
     for (int i = 0; i < POLE_HEIGHT; i++) {
