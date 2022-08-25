@@ -1,10 +1,10 @@
 #ifndef HEADER_H_
 #define HEADER_H_
 #include <math.h>
+#include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ncurses.h>
 #define NMAX 300
 #define POLE_HEIGHT 42
 #define POLE_WIDTH 163
@@ -44,7 +44,7 @@ int check_data(char *new_data);
 void check_extra_symbols(char *new_data);
 int check_brackets(char *new_data);
 int check_sin(char *new_data);
-int check_abs(char *new_data) ;
+int check_abs(char *new_data);
 int check_cos(char *new_data);
 int check_tg(char *new_data);
 int check_ctg(char *new_data);

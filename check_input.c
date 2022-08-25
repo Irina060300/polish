@@ -7,7 +7,7 @@ int check_data(char *new_data) {
             flag++;
         }
     }
-    // printf("extra %d\n", flag);
+    // printw("extra %d\n", flag);
     if (check_brackets(new_data) != 0) flag++;
     if (check_sin(new_data) != 0) flag++;
     if (check_cos(new_data) != 0) flag++;
@@ -53,7 +53,7 @@ int check_brackets(char *new_data) {
     if (new_data[i] == ')') count_close++;
     if (new_data[i] == '(') count_open++;
     if (count_open != count_close) flag++;
-    // printf("brackets %d\n", flag);
+    // printw("brackets %d\n", flag);
     return flag;
 }
 
@@ -70,7 +70,7 @@ int check_sin(char *new_data) {
             if (new_data[i + 1] != '(') flag++;
         }
     }
-    // printf("sin %d\n", flag);
+    // printw("sin %d\n", flag);
     return flag;
 }
 
@@ -87,10 +87,9 @@ int check_abs(char *new_data) {
             if (new_data[i + 1] != '(') flag++;
         }
     }
-    // printf("mod %d\n", flag);
+    // printw("mod %d\n", flag);
     return flag;
 }
-
 
 int check_cos(char *new_data) {
     int flag = 0;
@@ -105,7 +104,7 @@ int check_cos(char *new_data) {
             if (new_data[i + 1] != '(') flag++;
         }
     }
-    // printf("cos %d\n", flag);
+    // printw("cos %d\n", flag);
     return flag;
 }
 
@@ -122,7 +121,7 @@ int check_tg(char *new_data) {
             if (new_data[i + 1] != '(') flag++;
         }
     }
-    // printf("tg %d\n", flag);
+    // printw("tg %d\n", flag);
     return flag;
 }
 
@@ -139,7 +138,7 @@ int check_ctg(char *new_data) {
             if (new_data[i + 1] != '(') flag++;
         }
     }
-    // printf("ctg %d\n", flag);
+    // printw("ctg %d\n", flag);
     return flag;
 }
 
@@ -156,7 +155,7 @@ int check_sqrt(char *new_data) {
             if (new_data[i + 1] != '(') flag++;
         }
     }
-    // printf("sqrt %d\n", flag);
+    // printw("sqrt %d\n", flag);
     return flag;
 }
 
@@ -173,7 +172,7 @@ int check_ln(char *new_data) {
             if (new_data[i + 1] != '(') flag++;
         }
     }
-    // printf("ln %d\n", flag);
+    // printw("ln %d\n", flag);
     return flag;
 }
 
@@ -184,28 +183,28 @@ int check_operators(char *new_data) {
     for (i = 1; i < strlen(new_data) - 1; i++) {
         if (new_data[i] == '+' || new_data[i] == '-' || new_data[i] == '*' || new_data[i] == '/' || new_data[i] == '^') {
             if (!(new_data[i - 1] == ')' || new_data[i - 1] == 'x' || (new_data[i - 1] >= '0' && new_data[i - 1] <= '9'))) {
-                // printf("operators %d %lld\n", flag, i);
+                // printw("operators %d %lld\n", flag, i);
                 flag++;
             }
 
             if (new_data[i + 1] == '(' || new_data[i + 1] == 'x' || new_data[i + 1] == 'h' || new_data[i + 1] == 'c' ||
                 new_data[i + 1] == 't' || new_data[i + 1] == 'p' || new_data[i + 1] == 'k' || new_data[i + 1] == 'q' ||
-                new_data[i + 1] == 'l' || new_data[i+1] == 'a' || (new_data[i + 1] >= '0' && new_data[i + 1] <= '9')) {
+                new_data[i + 1] == 'l' || new_data[i + 1] == 'a' || (new_data[i + 1] >= '0' && new_data[i + 1] <= '9')) {
                 continue;
             } else {
-                // printf("operators %d %lld\n", flag, i);
+                // printw("operators %d %lld\n", flag, i);
                 flag++;
             }
             if (new_data[i] == '~') {
                 if (!(new_data[i + 1] >= '0' && new_data[i + 1] <= '9')) {
-                    // printf("operators %d %lld\n", flag, i);
+                    // printw("operators %d %lld\n", flag, i);
                     flag++;
                 }
             }
         }
     }
     if (new_data[i] == '+' || new_data[i] == '-' || new_data[i] == '*' || new_data[i] == '/') flag++;
-    // printf("operators %d\n", flag);
+    // printw("operators %d\n", flag);
     return flag;
 }
 
@@ -214,18 +213,27 @@ int check_x(char *new_data) {
     size_t i;
     if (strlen(new_data) != 1) {
         if (new_data[0] == 'x') {
-            if (!(new_data[1] == '+' || new_data[1] == '*' || new_data[1] == '*' || new_data[1] == '/' || new_data[1] == '^')) flag++;
+            if (!(new_data[1] == '+' || new_data[1] == '-' || new_data[1] == '*' || new_data[1] == '*' || new_data[1] == '/' || new_data[1] == '^')) {
+                flag++;
+                // printw("x1 %d\n", flag);
+            }
         }
         for (i = 1; i < strlen(new_data) - 1; i++) {
             if (new_data[i] == 'x') {
                 if (!(new_data[i - 1] == '+' || new_data[i - 1] == '-' || new_data[i - 1] == '*' || new_data[i - 1] == '/' ||
-                      new_data[i - 1] == '(' || new_data[i - 1] == '~' || new_data[i - 1] == '^')) flag++;
+                      new_data[i - 1] == '(' || new_data[i - 1] == '~' || new_data[i - 1] == '^')) {
+                    flag++;
+                    // printw("x2 %d\n", flag);
+                }
                 if (!(new_data[i + 1] == '+' || new_data[i + 1] == '-' || new_data[i + 1] == '*' || new_data[i + 1] == '/' ||
-                      new_data[i + 1] == ')' || new_data[i + 1] == '^')) flag++;
+                      new_data[i + 1] == ')' || new_data[i + 1] == '^' || new_data[i + 1] == '\0')) {
+                    // printw("x3 %d\n", flag);
+                    flag++;
+                }
             }
         }
     }
-    // printf("x %d\n", flag);
+    // printw("x %d\n", flag);
     return flag;
 }
 
@@ -239,7 +247,6 @@ int check_point(char *new_data) {
             if (!(new_data[i + 1] >= '0' && new_data[i + 1] <= '9')) flag++;
         }
     }
-    // printf("point %d\n", flag);
+    // printw("point %d\n", flag);
     return flag;
 }
-

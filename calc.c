@@ -1,6 +1,7 @@
 #include "header.h"
 
 double create_stk(char *polish, t_numbers *stk, double x) {
+    // printw("%s", polish);
     size_t i;
     int j = 0;
     char num[NMAX];
@@ -35,15 +36,32 @@ double create_stk(char *polish, t_numbers *stk, double x) {
 }
 int max_point(char *polish, t_numbers *stk) {
     int max = 0;
+    int min = 0;
     double y;
-    for (double x = -8; x < 8; x += 0.01) {
+    for (double x = -8; x < 8; x += 0.1) {
         y = create_stk(polish, stk, x);
         if (y > max) {
             max = (int)ceil(y);
         }
+        if (y < min) {
+            min = (int)floor(y);
+        }
     }
-    if (max % 2 == 1 && max < 8) max += 1;
-    if (!(max < 8)) max = 8;
+    if (max % 2 == 1) {
+        max += 1;
+    }
+    if (!(min % 2 == 0)) {
+        min += 1;
+    }
+    if (max > 8) {
+        max = 8;
+    }
+    if (min < -8) {
+        min = -8;
+    }
+    if (fabs((double)min) > max) {
+        max = (int)fabs((double)min);
+    }
     return max;
 }
 
@@ -56,7 +74,7 @@ void result(char *polish, t_numbers *stk, char **pole) {
     // for (double x = 0.0; x < 8.0 * pi + 8 * pi / (POLE_WIDTH - 3.0); x +=  8 * pi / (POLE_WIDTH - 3.0)) {
     for (double x = -8.0; x < 8.0; x += 0.1) {
         y = create_stk(polish, stk, x);
-        if (isnan(y) == 0 && isinf(y) == 0) {
+        if (isnan(y) == 0) {
             if (y <= 8 && y >= -8) {
                 double h = ceil((POLE_HEIGHT - 2) / 2 - (POLE_HEIGHT - 2) / 2 / max * y);
                 double c = floor((POLE_HEIGHT - 2) / 2 - (POLE_HEIGHT - 2) / 2 / max * y);
@@ -69,11 +87,10 @@ void result(char *polish, t_numbers *stk, char **pole) {
                 }
                 point_count++;
             }
-            // printw("%d ", count);
+            // printw("%lf %d ", y, count);
             count++;
         } else {
             count++;
-            continue;
         }
     }
     if (point_count == 0) {
@@ -90,14 +107,12 @@ void result(char *polish, t_numbers *stk, char **pole) {
                     if (j == 0 || j == 1) {
                         attron(COLOR_PAIR(1));
                         printw("%c", pole[i][j]);
+                    } else if (pole[i][j] == '*') {
+                        attron(COLOR_PAIR(4));
+                        printw("%c", pole[i][j]);
                     } else {
-                        if(pole[i][j] == '*'){
-                            attron(COLOR_PAIR(4));
-                            printw("%c", pole[i][j]);
-                        } else {
-                            attron(COLOR_PAIR(3));
-                            printw("%c", pole[i][j]);
-                        }
+                        attron(COLOR_PAIR(3));
+                        printw("%c", pole[i][j]);
                     }
                 } else if (i == POLE_HEIGHT - 1) {
                     attron(COLOR_PAIR(1));
@@ -106,16 +121,14 @@ void result(char *polish, t_numbers *stk, char **pole) {
                     if (j == 1) {
                         attron(COLOR_PAIR(1));
                         printw("%c", pole[i][j]);
+                    } else if (pole[i][j] == '*') {
+                        attron(COLOR_PAIR(4));
+                        printw("%c", pole[i][j]);
                     } else {
-                        if(pole[i][j] == '*'){
-                            attron(COLOR_PAIR(4));
-                            printw("%c", pole[i][j]);
-                        } else {
-                            attron(COLOR_PAIR(3));
-                            printw("%c", pole[i][j]);
-                        }
+                        attron(COLOR_PAIR(3));
+                        printw("%c", pole[i][j]);
                     }
-                } else if(pole[i][j] == '*') {
+                } else if (pole[i][j] == '*') {
                     attron(COLOR_PAIR(4));
                     printw("%c", pole[i][j]);
                 } else {
@@ -146,25 +159,27 @@ void calc(char c, t_numbers *stk) {
             if (c == '+') push_numbers(stk, b + a);
             if (c == '-') push_numbers(stk, b - a);
             if (c == '*') push_numbers(stk, b * a);
-            if (c == '/') push_numbers(stk, b / a);
+            if (c == '/') {
+                push_numbers(stk, b / a);
+            }
             if (c == '^') push_numbers(stk, pow(b, a));
+
         } else {
             a = pop_numbers(stk);
+            if (c == '~') push_numbers(stk, a - 2 * a);
             if (c == 'h') push_numbers(stk, sin(a));
             if (c == 'p') push_numbers(stk, cos(a));
             if (c == 'a') push_numbers(stk, fabs(a));
             if (c == 't') push_numbers(stk, tan(a));
             if (c == 'k') push_numbers(stk, pow(tan(a), -1));
             if (c == 'q') push_numbers(stk, sqrt(a));
-
             if (c == 'l') push_numbers(stk, log(a));
-            if (c == '~') push_numbers(stk, -a);
+            // printw("%lf\n", stk->num[stk->top - 1]);
         }
     }
 }
 
 void create_pole(char **pole, char *polish, t_numbers *stk) {
-    // printw("%s\n", polish);
     double max = max_point(polish, stk);
     stk->top = 0;
     for (int i = 0; i < POLE_HEIGHT; i++) {
